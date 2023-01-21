@@ -1,0 +1,30 @@
+{
+    "rower": [
+        {
+            "type": "MTB",
+            "name": "Giant",
+            "comment": "rower górski",
+            "prize_net": 450,
+            "quantity": 12,
+            "tax": 23
+        },
+        {
+            "type": "Szosowy",
+            "name": "Bianchi",
+            "comment": "rower szosowy",
+            "prize_net": 4500,
+            "quantity": 5,
+            "tax": 23
+        }
+    ],
+    "czesci": [
+        {
+            "type": "MTB",
+            "name": "Linka hamulca",
+            "comment": "krótka linka hamulca przód (MTB)",
+            "prize_net": 30,
+            "quantity": 40,
+            "tax": 23
+        }
+    ]
+}
