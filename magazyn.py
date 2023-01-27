@@ -1,55 +1,48 @@
 import sys
 
 def main():
-<<<<<<< HEAD
-    ci.company_info()
-    while True:
-        ci.show_menu(MENU_LIST)
-        user_input = input("->")
-        if user_input != "koniec" or user_input != "end":
-            if user_input == "saldo":
-                print("saldo")
-            elif user_input == "sprzedaz":
-                print("sprzedaz")
-            elif user_input == "zakup":
-                print("zakup")
-            elif user_input == "konto":
-                print("konto")
-            elif user_input == "lista":
-                print("lista")
-            elif user_input == "magazyn":
-                print("magazyn")
-            elif  user_input == "przeglad":
-                print("przeglad")
-        else:
-=======
     data = []
+    warehouse = {
+        'saldo': {},
+        'sprzedaż': {},
+        'zakup': {},
+        'magazyn': {}
+    }
+
     while True:
-        user_input = input()
+        user_input = input().strip()
         if not user_input or user_input == 'stop':
->>>>>>> 5b771036ff295ee3d221dc05e631c0e0a9a31f3c
             break
         data.append(user_input)
-
-    for arg in range(len(sys.argv)-1):
-        data.append(sys.argv[arg+1])
-    for data_count in data:
-        print(data_count)
     
-    # warehouse products
-    warehouse = {}
-    
+    ##################################
+    # zad. 4
+    ##################################
+    for loop in range(len(data)):
+        if data[0] == 'saldo':
+            if not warehouse['saldo']:
+                warehouse.update({data[0]:{data[1]:data[2]}})
+            warehouse[data[0]].update({data[1]:data[2]})
+            data = data[3:]
+        elif data[0] == 'sprzedaż':
+            if not warehouse['sprzedaż']:
+                warehouse.update({data[0]:{data[1]:{data[2]:data[3]}}})
+            warehouse[data[0]].update({data[1]:{data[2]:data[3]}})
+            data = data[4:]
+        elif data[0] == 'zakup':
+            if not warehouse['zakup']:
+                warehouse.update({data[0]:{data[1]:{data[2]:data[3]}}})
+            warehouse[data[0]].update({data[1]:{data[2]:data[3]}})
+            data = data[4:]
         
-    #for count in range(len(data)):
-    #    if data[count] == 'zakup':
-    #        warehouse.update({data[count+1]:int(data[count+3])})
-    #    elif data[count] == 'sprzedaż':
-    #        if data[count+1] in warehouse.keys():
-    #            #warehouse[data[count+1]] = warehouse[data[count+1]] - data[count+3]
-    #            warehouse[data[count+1]] = warehouse[data[count+1]] - int(data[count+3])
-            
-    
+    #######################################
+    # magazyn do 4
+    #######################################
+    if sys.argv[1] == 'magazyn':
+        print('M A G A Z Y N')
+        for arg in range(len(sys.argv)-2):
+            data.append(sys.argv[arg+0])
+
     print(warehouse)
-    
 if __name__ == "__main__":
     main()
