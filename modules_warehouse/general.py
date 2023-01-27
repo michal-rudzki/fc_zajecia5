@@ -4,9 +4,9 @@ def company_info():
     address = "ul. Rowerowa 45, Gdańsk"
     company_info = [name, address, name]
 
-    return company_info
+    return print(company_info)
 
 def show_menu(list_options):
     menu = list_options
     for list in list_options:
-        print(f"[] {list}")
+        print(f"[ ] {list}")
