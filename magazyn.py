@@ -21,47 +21,62 @@ def main():
             break
         data.append(user_input)
         
-    for arg in range(len(sys.argv)-2):
-        data.append(sys.argv[arg+1])
+    for arg in sys.argv[1:]:
+        data.append(arg)
         
     
     ##################################
     # zad. 4
     ##################################
     for loop in range(len(data)):
-        if data[0] == 'saldo':
-            if not warehouse['saldo']:
-                warehouse.update({data[0]:{int(data[1]):data[2]}})
-            warehouse[data[0]].update({int(data[1]):data[2]})
+        if data[0] == 'stop':
+            break
+        elif data[0] == 'saldo':
+            if not warehouse[data[0]]:
+                warehouse.update({len(warehouse[data[0]]):{data[0]:{int(data[1]):data[2]}}})
+            warehouse[data[0]].update({len(warehouse[data[0]]):{int(data[1]):data[2]}})
             data = data[3:]
         elif data[0] == 'sprzedaż':
-            if not warehouse['sprzedaż']:
-                warehouse.update({data[0]:{data[1]:{data[2]:data[3]}}})
-            warehouse[data[0]].update({data[1]:{data[2]:data[3]}})
+            if not warehouse[data[0]]:
+                warehouse.update({data[0]:{data[1]:{data[2]:int(data[3])}}})
+                warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
+            warehouse[data[0]].update({data[1]:{data[2]:int(data[3])}})
+            warehouse['magazyn'][data[1]] = warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]]
+            warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
             data = data[4:]
         elif data[0] == 'zakup':
-            if not warehouse['zakup']:
-                warehouse.update({data[0]:{data[1]:{data[2]:data[3]}}})
+            if not warehouse[data[0]]:
+                warehouse.update({data[0]:{data[1]:{data[2]:int(data[3])}}})
                 warehouse['magazyn'].update({data[1]:int(data[3])})
+                warehouse['saldo'].update({len(warehouse['saldo']):{(int(data[2])*-1):data[1]}})
                 data = data[4:]
+                continue
             # jesli jest to updejct ilosci, jesli nie ma to wpisz
             if check_warehouse(warehouse['magazyn'], data[1]) == True:
                 warehouse['magazyn'][data[1]] = warehouse['magazyn'][data[1]] + int(data[3])
+                warehouse['saldo'].update({len(warehouse['saldo']):{(int(data[2])*-1):data[1]}})
                 data = data[4:]
             else:
                 warehouse[data[0]].update({data[1]:{data[2]:int(data[3])}})
                 warehouse['magazyn'].update({data[1]:int(data[3])})
+                warehouse['saldo'].update({len(warehouse['saldo']):{(int(data[2])*-1):data[1]}})
                 data = data[4:]
-            
-
-    #print(warehouse)
+        # dodac do magazynu z cli
+        elif data[0] == 'magazyn':
+            for product in data[1:]:
+                if check_warehouse(warehouse['magazyn'], product) != True:
+                    warehouse['magazyn'].update({product:0})
+                    if len(data[4:]) == 0:
+                        data = ['stop']
+                        break
+                
     #######################################
     # magazyn do 4
     #######################################
     if sys.argv[1] == 'magazyn':
         print('M A G A Z Y N')
-        for warehouse_list in warehouse['magazyn']:
-            print(warehouse_list)
+        for key, value in warehouse['magazyn'].items():
+            print(f"{key}: [{value}]")
         
 
 if __name__ == "__main__":
