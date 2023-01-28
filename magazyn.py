@@ -8,6 +8,9 @@ def check_warehouse(warehouse, data):
 
 def main():
     data = []
+    konto = []
+    data_review = []
+    
     warehouse = {
         'saldo': {},
         'sprzedaż': {},
@@ -20,6 +23,8 @@ def main():
         if not user_input or user_input == 'stop':
             break
         data.append(user_input)
+    
+    data_review = data
         
     for arg in sys.argv[1:]:
         data.append(arg)
@@ -41,8 +46,11 @@ def main():
                 warehouse.update({data[0]:{data[1]:{data[2]:int(data[3])}}})
                 warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
             warehouse[data[0]].update({data[1]:{data[2]:int(data[3])}})
-            warehouse['magazyn'][data[1]] = warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]]
-            warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
+            if warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]] >= 0:
+                warehouse['magazyn'][data[1]] = warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]]
+                warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
+            else:
+                print("za mało w magazynie")
             data = data[4:]
         elif data[0] == 'zakup':
             if not warehouse[data[0]]:
@@ -77,7 +85,29 @@ def main():
         print('M A G A Z Y N')
         for key, value in warehouse['magazyn'].items():
             print(f"{key}: [{value}]")
-        
+    elif sys.argv[1] == 'konto':
+        for key, value in warehouse['saldo'].items():
+            konto += value.keys()
+        print(f"Stan konta: {sum(konto)}")
+    elif sys.argv[1] == 'przegląd':
+        index = 0
+        tmp = []
+        for review in data_review:
+            if review == 'saldo' or review == 'sprzedaż' or review == 'zakup':
+                tmp.append([index, review])
+                index += 1
+            index += 1
+
+        index = 0
+        for review in data_review:
+            if review == 'saldo':
+                print(index, data_review[0:3])
+                data_review = data_review[3:]
+                index += 1
+            elif review == 'zakup' or review == 'sprzedaż':
+                print(index, data_review[0:4])
+                data_review = data_review[4:]
+                index += 1
 
 if __name__ == "__main__":
     main()
