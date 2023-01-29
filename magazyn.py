@@ -30,9 +30,6 @@ def main():
         data.append(arg)
         
     
-    ##################################
-    # zad. 4
-    ##################################
     for loop in range(len(data)):
         if data[0] == 'stop':
             break
@@ -78,9 +75,7 @@ def main():
                         data = ['stop']
                         break
                 
-    #######################################
-    # magazyn do 4
-    #######################################
+
     if sys.argv[1] == 'magazyn':
         print('M A G A Z Y N')
         for key, value in warehouse['magazyn'].items():
