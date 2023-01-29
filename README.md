@@ -28,3 +28,17 @@ Dodatkowe wymagania:
     Komendy saldo, sprzedaż i zakup są zapamiętywane przez program, aby móc użyć komendy "przeglad".
     Po wykonaniu dowolnej komendy (np. "saldo") aplikacja ponownie wyświetla informację o dostępnych komendach, a także prosi o wprowadzenie jednej z nich.
     Zadbaj o błędy, które mogą się pojawić w trakcie wykonywania operacji (np. przy komendzie "zakup" jeśli dla produktu podamy ujemną kwotę, aplikacja powinna wyświetlić informację o niemożności wykonania operacji i jej nie wykonać). Zadbaj też o prawidłowe typy danych.
+
+Używanie programu:
+
+$ python magazyn.py opcje parametry < in.txt
+
+Przypadki użycia w pliku dla vscode: launch.json
+
+jak poniżej:
+            "args": ["saldo", "-1000", "podatek", "<", "in.txt"]
+            "args": ["zakup", "jetson", "40000", "5", "<", "in.txt"]
+            "args": ["sprzedaż", "jetson", "50000", "4", "<", "in.txt"]
+            "args": ["magazyn", "jetson", "raspberry", "arduino", "satel", "<", "in.txt"]
+            "args": ["konto", "<", "in.txt"]
+            "args": ["przegląd", "0", "1", "<", "in.txt"]
