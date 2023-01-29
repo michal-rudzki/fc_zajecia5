@@ -31,9 +31,11 @@ Dodatkowe wymagania:
 
 Używanie programu:
 
+```
 $ python magazyn.py opcje parametry < in.txt
+```
 
-Przypadki użycia w pliku dla vscode: launch.json
+Przypadki użycia w pliku dla vscode: *launch.json*
 
 jak poniżej zostało przetestowane:
 - [x] "args": ["saldo", "-1000", "podatek", "<", "in.txt"]
