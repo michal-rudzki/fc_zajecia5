@@ -35,10 +35,10 @@ $ python magazyn.py opcje parametry < in.txt
 
 Przypadki użycia w pliku dla vscode: launch.json
 
-jak poniżej:
-            >"args": ["saldo", "-1000", "podatek", "<", "in.txt"]
-            >"args": ["zakup", "jetson", "40000", "5", "<", "in.txt"]
-            >"args": ["sprzedaż", "jetson", "50000", "4", "<", "in.txt"]
-            >"args": ["magazyn", "jetson", "raspberry", "arduino", "satel", "<", "in.txt"]
-            >"args": ["konto", "<", "in.txt"]
-            >"args": ["przegląd", "0", "1", "<", "in.txt"]
+jak poniżej zostało przetestowane:
+- [x] "args": ["saldo", "-1000", "podatek", "<", "in.txt"]
+- [x] "args": ["zakup", "jetson", "40000", "5", "<", "in.txt"]
+- [x] "args": ["sprzedaż", "jetson", "50000", "4", "<", "in.txt"]
+- [x] "args": ["magazyn", "jetson", "raspberry", "arduino", "satel", "<", "in.txt"]
+- [x] "args": ["konto", "<", "in.txt"]
+- [x] "args": ["przegląd", "0", "1", "<", "in.txt"]
