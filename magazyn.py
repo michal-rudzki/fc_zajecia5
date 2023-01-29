@@ -90,24 +90,25 @@ def main():
             konto += value.keys()
         print(f"Stan konta: {sum(konto)}")
     elif sys.argv[1] == 'przegląd':
-        index = 0
-        tmp = []
-        for review in data_review:
-            if review == 'saldo' or review == 'sprzedaż' or review == 'zakup':
-                tmp.append([index, review])
-                index += 1
-            index += 1
-
+        history = {}
         index = 0
         for review in data_review:
             if review == 'saldo':
-                print(index, data_review[0:3])
+                history.update({index:data_review[0:3]})
                 data_review = data_review[3:]
+                #print(history[index])
                 index += 1
             elif review == 'zakup' or review == 'sprzedaż':
-                print(index, data_review[0:4])
+                history.update(({index:data_review[0:4]}))
                 data_review = data_review[4:]
+                #print(history[index])
                 index += 1
-
+        if int(sys.argv[3])+1 <= index:
+            for review in range(int(sys.argv[2]), int(sys.argv[3])+1):
+                for format_history in history[review]:
+                    print(format_history)
+        else:
+            print(f"Index poza zasiegiem, index = [{index-1}]")
+            
 if __name__ == "__main__":
     main()
