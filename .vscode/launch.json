@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            //"args": ["saldo", "-1000", "podatek", "<", "in.txt"]
+            //"args": ["zakup", "jetson", "40000", "5", "<", "in.txt"]
+            //"args": ["sprzedaż", "jetson", "50000", "4", "<", "in.txt"]
+            //"args": ["magazyn", "jetson", "raspberry", "arduino", "satel", "<", "in.txt"]
+            //"args": ["konto", "<", "in.txt"]
+            //"args": ["przegląd", "0", "1", "<", "in.txt"]
+        }
+    ]
+}
