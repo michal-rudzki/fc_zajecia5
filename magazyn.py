@@ -31,13 +31,13 @@ def main():
         
     
     for loop in range(len(data)):
-        if data[0] == 'stop':
-            break
-        elif data[0] == 'saldo':
+        if data[0] == 'saldo':
             if not warehouse[data[0]]:
                 warehouse.update({len(warehouse[data[0]]):{data[0]:{int(data[1]):data[2]}}})
             warehouse[data[0]].update({len(warehouse[data[0]]):{int(data[1]):data[2]}})
             data = data[3:]
+            if len(data) == 0:
+                break
         elif data[0] == 'sprzedaż':
             if not warehouse[data[0]]:
                 warehouse.update({data[0]:{data[1]:{data[2]:int(data[3])}}})
@@ -49,6 +49,8 @@ def main():
             else:
                 print("za mało w magazynie")
             data = data[4:]
+            if len(data) == 0:
+                break
         elif data[0] == 'zakup':
             if not warehouse[data[0]]:
                 warehouse.update({data[0]:{data[1]:{data[2]:int(data[3])}}})
@@ -61,11 +63,15 @@ def main():
                 warehouse['magazyn'][data[1]] = warehouse['magazyn'][data[1]] + int(data[3])
                 warehouse['saldo'].update({len(warehouse['saldo']):{(int(data[2])*-1):data[1]}})
                 data = data[4:]
+                if len(data) == 0:
+                    break
             else:
                 warehouse[data[0]].update({data[1]:{data[2]:int(data[3])}})
                 warehouse['magazyn'].update({data[1]:int(data[3])})
                 warehouse['saldo'].update({len(warehouse['saldo']):{(int(data[2])*-1):data[1]}})
                 data = data[4:]
+                if len(data) == 0:
+                    break
         # dodac do magazynu z cli
         elif data[0] == 'magazyn':
             for product in data[1:]:
@@ -104,6 +110,25 @@ def main():
                     print(format_history)
         else:
             print(f"Index poza zasiegiem, index = [{index-1}]")
-            
+    elif sys.argv[1] == 'saldo':
+        for data in data_review:
+            print(data)
+    elif sys.argv[1] == 'zakup':
+        saldo = []
+        zakup = sys.argv[3]
+        
+        for key, values in warehouse['saldo'].items():
+            for saldo_list in values.keys():
+                saldo.append(saldo_list)
+        
+        if sum(saldo) >= int(zakup):
+            for data in data_review:
+                print(data)
+        else:
+            print("Za mało środków")
+    elif sys.argv[1] == 'sprzedaż':
+        for data in data_review:
+            print(data)
+        
 if __name__ == "__main__":
     main()
