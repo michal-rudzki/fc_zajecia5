@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            //"args": ["saldo", "-1000", "podatek", "<", "in.txt"]
+            "args": ["saldo", "-1000", "podatek", "<", "in.txt"]
             //"args": ["zakup", "jetson", "40000", "5", "<", "in.txt"]
             //"args": ["sprzedaż", "jetson", "50000", "4", "<", "in.txt"]
             //"args": ["magazyn", "jetson", "raspberry", "arduino", "satel", "<", "in.txt"]

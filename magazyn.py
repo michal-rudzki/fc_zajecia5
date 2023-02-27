@@ -1,16 +1,36 @@
 import sys
 
+FILEDB = 'magazyn.db'
+
 def check_warehouse(warehouse, data):
     for product in warehouse:
         if product == data:
             return True
     return False
 
+def open_db_file(file):
+    data = []
+    print(f"Otiweram do czytania: {file}")
+    with open(file, mode = 'r') as f:
+        data = f.readlines()
+    
+    return data
+
+def save_db_file(file):
+    pass
+
+def update_warehouse(data_from_file):
+    for data in data_from_file:
+        print(data)
+    
 def main():
     data = []
     konto = []
     data_review = []
     
+    data_from_file = open_db_file(FILEDB)
+    update_warehouse(data_from_file)
+
     warehouse = {
         'saldo': {},
         'sprzedaż': {},
@@ -29,7 +49,6 @@ def main():
     for arg in sys.argv[1:]:
         data.append(arg)
         
-    
     for loop in range(len(data)):
         if data[0] == 'saldo':
             if not warehouse[data[0]]:
@@ -81,7 +100,6 @@ def main():
                         data = ['stop']
                         break
                 
-
     if sys.argv[1] == 'magazyn':
         print('M A G A Z Y N')
         for key, value in warehouse['magazyn'].items():
