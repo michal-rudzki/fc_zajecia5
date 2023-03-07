@@ -11,26 +11,69 @@ def check_warehouse(warehouse, data):
 def open_db_file(file):
     data = []
     print(f"Otiweram do czytania: {file}")
-    with open(file, mode = 'r') as f:
+    with open(file, mode = 'r', encoding = "utf-8") as f:
         data = f.readlines()
     
     return data
 
-def save_db_file(file):
-    pass
+def save_warehouse_to_db_file(warehouse):
+    with open(FILEDB, mode='a') as file:
+        file.write("buffer") # <- do poprawy
 
 def update_warehouse(data_from_file):
+    
+    tmp = []
+    from_file = {
+        'saldo': {},
+        'sprzedaż': {},
+        'zakup': {},
+        'magazyn': {}
+    }
+        
     for data in data_from_file:
-        print(data)
+        tmp.append(data.strip('\n'))
+        data_from_file = tmp
+    
+    for loop in range(len(data_from_file)):
+        if data_from_file[0] == 'saldo':
+            from_file[data_from_file[0]].update({len(from_file[data_from_file[0]]):{int(data_from_file[1]):data_from_file[2]}})
+            data_from_file = data_from_file[3:]
+            if len(data_from_file) == 0:
+                break
+        elif data_from_file[0] == 'sprzedaż':
+            from_file[data_from_file[0]].update({data_from_file[1]:{data_from_file[2]:data_from_file[3]}})
+            data_from_file = data_from_file[4:]
+            if len(data_from_file) == 0:
+                break
+            
+    return from_file
+
+def warehouse_as_list(data_from_warehouse):
+    data_list = []
+    if len(data_from_warehouse['saldo']) != 0:
+        counter = 0
+        for loop in range(len(data_from_warehouse['saldo'])):
+            data_list.append(list(data_from_warehouse.keys())[0]) 
+            data_list.append(list(data_from_warehouse['saldo'][counter].keys())[0])
+            data_list.append(list(data_from_warehouse['saldo'][counter].values())[0])
+            counter += 1
+            if len(data_from_warehouse['saldo']) <= counter:
+                break
+            
+    if len(data_from_warehouse['sprzedaż']) != 0:
+        counter = 0
+        for loop in range(len(data_from_warehouse['sprzedaż'])):
+            data_list.append(list(data_from_warehouse.keys())[0]) 
+            # blad sprawdź
+            data_list.append(list(data_from_warehouse['sprzedaż'][counter].keys())[0])
+            data_list.append(list(data_from_warehouse['sprzedaż'][counter].values())[0])
+            counter += 1
+            if len(data_from_warehouse['saldo']) <= counter:
+                break
+            
+    return data_list
     
 def main():
-    data = []
-    konto = []
-    data_review = []
-    
-    data_from_file = open_db_file(FILEDB)
-    update_warehouse(data_from_file)
-
     warehouse = {
         'saldo': {},
         'sprzedaż': {},
@@ -38,11 +81,24 @@ def main():
         'magazyn': {}
     }
 
+    data = []
+    konto = []
+    data_review = []
+    tmp_data = []
+    
+    data_from_file = open_db_file(FILEDB)
+    warehouse = update_warehouse(data_from_file)
+    
     while True:
         user_input = input().strip()
         if not user_input or user_input == 'stop':
             break
-        data.append(user_input)
+        
+        tmp_data.append(user_input)
+    
+    data_from_mem = warehouse_as_list(warehouse)
+    data = data_from_mem
+    data += tmp_data
     
     data_review = data
         
@@ -147,6 +203,8 @@ def main():
     elif sys.argv[1] == 'sprzedaż':
         for data in data_review:
             print(data)
+
+    print(warehouse)
         
 if __name__ == "__main__":
     main()
