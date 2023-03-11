@@ -1,4 +1,6 @@
+import os
 import sys
+import json
 
 FILEDB = 'magazyn.db'
 
@@ -16,9 +18,11 @@ def open_db_file(file):
     
     return data
 
-def save_warehouse_to_db_file(warehouse):
-    with open(FILEDB, mode='a') as file:
-        file.write("buffer") # <- do poprawy
+def save_warehouse_to_db_file(data_review):
+    with open(FILEDB, mode='w', encoding = "utf-8") as file:
+        for line_reader in data_review:
+            file.write(line_reader)
+            file.write("\n")
 
 def update_warehouse(data_from_file):
     
@@ -51,9 +55,6 @@ def update_warehouse(data_from_file):
             if len(data_from_file) == 0:
                 break
         elif data_from_file[0] == 'zakup':
-            '''
-
-            '''
             from_file[data_from_file[0]].update({data_from_file[1]:{data_from_file[2]:data_from_file[3]}})
             data_from_file =data_from_file[4:]
             if len(data_from_file) == 0:
@@ -114,16 +115,19 @@ def main():
     data_review = []
     tmp_data = []
     
-    data_from_file = open_db_file(FILEDB)
-    warehouse = update_warehouse(data_from_file)
+    if os.path.isfile(FILEDB):
+        data_from_file = open_db_file(FILEDB)
+        warehouse = update_warehouse(data_from_file)
     
     while True:
         user_input = input().strip()
         if not user_input or user_input == 'stop':
             break
         
+        # from input file in.txt
         tmp_data.append(user_input)
     
+    # from file magazyn.db
     data_from_mem = warehouse_as_list(warehouse)
     data = data_from_mem
     data += tmp_data
@@ -234,7 +238,12 @@ def main():
         for data in data_review:
             print(data)
 
-    print(warehouse)
+    #print(json.dumps(warehouse, indent = 4))
+    
+    print(f"Zapisuję do {FILEDB}")
+    save_warehouse_to_db_file(data_review)
+    
+    
         
 if __name__ == "__main__":
     main()
