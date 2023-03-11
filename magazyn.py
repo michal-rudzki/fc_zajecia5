@@ -36,13 +36,26 @@ def update_warehouse(data_from_file):
     
     for loop in range(len(data_from_file)):
         if data_from_file[0] == 'saldo':
-            from_file[data_from_file[0]].update({len(from_file[data_from_file[0]]):{int(data_from_file[1]):data_from_file[2]}})
+            from_file[data_from_file[0]].update({len(from_file[data_from_file[0]]):{str(data_from_file[1]):data_from_file[2]}})
             data_from_file = data_from_file[3:]
             if len(data_from_file) == 0:
                 break
         elif data_from_file[0] == 'sprzedaż':
+            ''' 0: sprzedaz
+                1: jetson
+                2: 25000
+                3: 1
+            ''' 
             from_file[data_from_file[0]].update({data_from_file[1]:{data_from_file[2]:data_from_file[3]}})
             data_from_file = data_from_file[4:]
+            if len(data_from_file) == 0:
+                break
+        elif data_from_file[0] == 'zakup':
+            '''
+
+            '''
+            from_file[data_from_file[0]].update({data_from_file[1]:{data_from_file[2]:data_from_file[3]}})
+            data_from_file =data_from_file[4:]
             if len(data_from_file) == 0:
                 break
             
@@ -63,12 +76,27 @@ def warehouse_as_list(data_from_warehouse):
     if len(data_from_warehouse['sprzedaż']) != 0:
         counter = 0
         for loop in range(len(data_from_warehouse['sprzedaż'])):
-            data_list.append(list(data_from_warehouse.keys())[0]) 
-            # blad sprawdź
-            data_list.append(list(data_from_warehouse['sprzedaż'][counter].keys())[0])
-            data_list.append(list(data_from_warehouse['sprzedaż'][counter].values())[0])
+            data_list.append(list(data_from_warehouse.keys())[1]) 
+            data_list.append(list(data_from_warehouse['sprzedaż'].keys())[0])
+            for key, val in list(data_from_warehouse['sprzedaż'].values())[0].items():
+                data_list.append(key)
+                data_list.append(val)
+
             counter += 1
             if len(data_from_warehouse['saldo']) <= counter:
+                break
+    
+    if len(data_from_warehouse['zakup']) != 0:
+        counter = 0
+        for loop in range(len(data_from_warehouse['zakup'])):
+            data_list.append(list(data_from_warehouse.keys())[2])
+            data_list.append(list(data_from_warehouse['zakup'].keys())[0])
+            for key, val in list(data_from_warehouse['zakup'].values())[0].items():
+                data_list.append(key)
+                data_list.append(val)
+            
+            counter += 1
+            if len(data_from_warehouse['zakup']) <= counter:
                 break
             
     return data_list
@@ -118,7 +146,9 @@ def main():
                 warehouse.update({data[0]:{data[1]:{data[2]:int(data[3])}}})
                 warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
             warehouse[data[0]].update({data[1]:{data[2]:int(data[3])}})
-            if warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]] >= 0:
+            if len(warehouse['magazyn']) == 0:
+                break
+            elif warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]] >= 0:
                 warehouse['magazyn'][data[1]] = warehouse['magazyn'][data[1]] - warehouse[data[0]][data[1]][data[2]]
                 warehouse['saldo'].update({len(warehouse['saldo']):{int(data[2]):data[1]}})
             else:
